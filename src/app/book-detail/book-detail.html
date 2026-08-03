@@ -1,0 +1,51 @@
+<div class="detail-page">
+  <div class="detail-shell">
+    <button type="button" class="back-btn" (click)="goBack()">
+      <i class="bi bi-arrow-left"></i>
+      Back to Books
+    </button>
+
+    <div *ngIf="loading" class="loading-state">Loading product...</div>
+
+    <div *ngIf="error" class="error-state">{{ error }}</div>
+
+    <div *ngIf="product && !loading" class="detail-card">
+      <div class="detail-image-wrap">
+        <img
+          *ngIf="product.imageUrl; else noImage"
+          [src]="resolveImageUrl(product.imageUrl)"
+          [alt]="product.name"
+          class="detail-image"
+        />
+        <ng-template #noImage>
+          <div class="detail-placeholder">No Image</div>
+        </ng-template>
+      </div>
+
+      <div class="detail-info">
+        <span class="detail-badge">{{ product.category }}</span>
+        <h1>{{ product.name }}</h1>
+
+        <div class="meta-row">
+          <div>
+            <label>Price</label>
+            <p>${{ product.price | number: '1.2-2' }}</p>
+          </div>
+          <div>
+            <label>Quantity</label>
+            <p>{{ product.qty }}</p>
+          </div>
+        </div>
+
+        <div class="description-box">
+          <label>Description</label>
+          <p>{{ product.description || 'No description available.' }}</p>
+        </div>
+
+        <div>
+            <button class="btn btn-outline-primary mt-3"><b class="gap-4">Order Now</b></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

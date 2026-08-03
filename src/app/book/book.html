@@ -1,0 +1,244 @@
+<div class="book-page">
+  <div *ngIf="error" class="api-error">
+    {{ error }}
+  </div>
+
+  <!-- <div class="page-header">
+    <h2>List Products</h2>
+  </div> -->
+
+  <div class="toolbar-wrap">
+    <div class="toolbar-left">
+      <div class="search-box">
+        <i class="bi bi-search"></i>
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          (input)="currentPage = 1"
+          placeholder="Search products..."
+          aria-label="Search products"
+        />
+      </div>
+    </div>
+
+    <div class="toolbar-right">
+      <select
+        [(ngModel)]="selectedCategory"
+        (change)="onCategoryChange()"
+        aria-label="Filter by category"
+      >
+        <option value="All">All Categories</option>
+        <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+      </select>
+
+      <button type="button" class="btn-add" (click)="openCreateModal()">
+        <i class="bi bi-plus-lg"></i>
+        Add Product
+      </button>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table class="product-table">
+      <thead>
+        <tr>
+          <th>ProdID</th>
+          <th>Title</th>
+          <th>Price (S)</th>
+          <th>Category</th>
+          <th>Qty</th>
+          <th>Image</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of filteredProducts(); trackBy: trackByProductId">
+          <td>{{ product.id }}</td>
+          <td>{{ product.name }}</td>
+          <td>{{ product.price | number: '1.2-2' }}</td>
+          <td>{{ product.category }}</td>
+          <td>{{ product.qty }}</td>
+          <td>
+            <img
+              *ngIf="product.imageUrl; else noImage"
+              [src]="resolveImageUrl(product.imageUrl)"
+              [alt]="product.name"
+              class="product-image"
+            />
+            <ng-template #noImage>
+              <div class="placeholder-image">No Image</div>
+            </ng-template>
+          </td>
+          <td class="action-cell">
+            <button type="button" class="btn-view" (click)="viewProduct(product.id)" aria-label="View product">
+              <i class="bi bi-eye"></i>
+            </button>
+            <button type="button" class="btn-edit" (click)="openEditModal(product.id)" aria-label="Edit product">
+              <i class="bi bi-pencil-square"></i>
+            </button>
+            <button
+              type="button"
+              class="btn-delete"
+              (click)="deleteProduct(product.id)"
+              [disabled]="isDeleting(product.id)"
+              aria-label="Delete product"
+            >
+              <i class="bi bi-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pagination-row" *ngIf="totalPages > 1">
+    <button type="button" class="page-btn" (click)="onPageChange(1)" [disabled]="currentPage === 1">
+      First
+    </button>
+    <button
+      type="button"
+      class="page-btn"
+      (click)="onPageChange(currentPage - 1)"
+      [disabled]="currentPage === 1"
+    >
+      Previous
+    </button>
+    <span class="page-indicator">Page {{ currentPage }} of {{ totalPages }}</span>
+    <button
+      type="button"
+      class="page-btn"
+      (click)="onPageChange(currentPage + 1)"
+      [disabled]="currentPage === totalPages"
+    >
+      Next
+    </button>
+    <button
+      type="button"
+      class="page-btn"
+      (click)="onPageChange(totalPages)"
+      [disabled]="currentPage === totalPages"
+    >
+      Last
+    </button>
+  </div>
+</div>
+
+<div
+  class="modal-backdrop"
+  *ngIf="modalOpen || detailOpen"
+  (click)="detailOpen ? closeDetailModal() : closeModal()"
+></div>
+
+<div
+  class="modal-dialog detail-dialog"
+  *ngIf="detailOpen && selectedProduct"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="productDetailTitle"
+>
+  <div class="modal-content detail-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3 id="productDetailTitle">Book Details</h3>
+      <button type="button" class="close-btn" aria-label="Close" (click)="closeDetailModal()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+    <div class="modal-body detail-body">
+      <div class="detail-image-wrap">
+        <img
+          *ngIf="selectedProduct.imageUrl; else detailPlaceholder"
+          [src]="resolveImageUrl(selectedProduct.imageUrl)"
+          [alt]="selectedProduct.name"
+          class="detail-image"
+        />
+        <ng-template #detailPlaceholder>
+          <div class="detail-placeholder">No Image</div>
+        </ng-template>
+      </div>
+
+      <div class="detail-info">
+        <h4>{{ selectedProduct.name }}</h4>
+        <p><strong>Category:</strong> {{ selectedProduct.category }}</p>
+        <p><strong>Price:</strong> ${{ selectedProduct.price | number: '1.2-2' }}</p>
+        <p><strong>Qty:</strong> {{ selectedProduct.qty }}</p>
+        <p>
+          <strong>Description:</strong>
+          {{ selectedProduct.description || 'No description available.' }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal-dialog"
+  *ngIf="modalOpen"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="productDialogTitle"
+>
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3 id="productDialogTitle">{{ isEditing ? 'Update Product' : 'Add Product' }}</h3>
+      <button type="button" class="close-btn" aria-label="Close" (click)="closeModal()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="product-name">Name</label>
+          <input id="product-name" type="text" [(ngModel)]="productForm.name" />
+        </div>
+
+        <div class="form-field">
+          <label for="product-category">Category</label>
+          <input id="product-category" type="text" [(ngModel)]="productForm.category" />
+        </div>
+
+        <div class="form-field">
+          <label for="product-price">Price</label>
+          <input id="product-price" type="number" step="0.01" [(ngModel)]="productForm.price" />
+        </div>
+
+        <div class="form-field">
+          <label for="product-qty">Qty</label>
+          <input id="product-qty" type="number" min="0" [(ngModel)]="productForm.qty" />
+        </div>
+
+        <div class="form-field full-width">
+          <label for="product-image">Image file</label>
+          <input id="product-image" type="file" accept="image/*" (change)="onImageSelected($event)" />
+          <small class="hint-text">Upload an image file. The API stores it as ImageUrl.</small>
+        </div>
+
+        <div class="form-field full-width">
+          <label for="product-description">Description</label>
+          <textarea
+            id="product-description"
+            rows="3"
+            [(ngModel)]="productForm.description"
+          ></textarea>
+        </div>
+
+        <div class="form-field full-width" *ngIf="imagePreviewUrl || productForm.imageUrl">
+          <label>Image preview</label>
+          <img
+            [src]="imagePreviewUrl || resolveImageUrl(productForm.imageUrl)"
+            [alt]="productForm.name || 'Product preview'"
+            class="form-preview-image"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="cancel-btn" (click)="closeModal()">Cancel</button>
+      <button type="button" class="save-btn" (click)="saveProduct()" [disabled]="saving">
+        {{ saving ? (isEditing ? 'Updating...' : 'Saving...') : (isEditing ? 'Update' : 'Save') }}
+      </button>
+    </div>
+  </div>
+</div>

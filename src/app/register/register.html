@@ -1,0 +1,113 @@
+<main class="mt-5 d-flex justify-content-center auth-page">
+  <section class="register-card rounded-3 p-4 shadow bg-white">
+    <div class="auth-card-header text-center mb-3">
+      <h2 class="text-primary"><b>Register</b></h2>
+      <p class="text-muted mb-0">Create your account to get started.</p>
+    </div>
+
+    <div *ngIf="error" class="auth-alert auth-alert-error">{{ error }}</div>
+    <div *ngIf="success" class="auth-alert auth-alert-success">{{ success }}</div>
+
+    <form class="auth-form" (ngSubmit)="submit()">
+      <div class="mb-3">
+        <label class="form-label text-primary mb-2">User Name</label>
+        <div class="input-group">
+          <span class="input-group-text bg-primary text-white"><i class="bi bi-person-fill"></i></span>
+          <input
+            type="text"
+            [(ngModel)]="form.userName"
+            name="userName"
+            class="form-control"
+            placeholder="Enter your user name"
+          />
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label text-primary mb-2">Email</label>
+        <div class="input-group">
+          <span class="input-group-text bg-primary text-white"><i class="bi bi-envelope"></i></span>
+          <input
+            type="email"
+            [(ngModel)]="form.email"
+            name="email"
+            class="form-control"
+            placeholder="Enter your email"
+          />
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label text-primary mb-2">Phone</label>
+        <div class="input-group">
+          <span class="input-group-text bg-primary text-white"><i class="bi bi-telephone"></i></span>
+          <input
+            type="tel"
+            [(ngModel)]="form.phone"
+            name="phone"
+            class="form-control"
+            placeholder="Enter your phone number"
+          />
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label text-primary mb-2">Password</label>
+        <div class="input-group">
+          <span class="input-group-text bg-primary text-white"><i class="bi bi-lock-fill"></i></span>
+          <input
+            type="password"
+            [(ngModel)]="form.password"
+            name="password"
+            class="form-control"
+            placeholder="Create a password"
+          />
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label text-primary mb-2">Confirm Password</label>
+        <div class="input-group">
+          <span class="input-group-text bg-primary text-white"><i class="bi bi-shield-lock-fill"></i></span>
+          <input
+            type="password"
+            [(ngModel)]="form.confirmPassword"
+            name="confirmPassword"
+            class="form-control"
+            placeholder="Repeat your password"
+          />
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label text-primary mb-2">Profile Image</label>
+        <div class="input-group">
+          <span class="input-group-text bg-primary text-white"><i class="bi bi-image"></i></span>
+          <input
+            type="file"
+            accept="image/*"
+            name="profileImage"
+            class="form-control"
+            (change)="onProfileImageSelected($event)"
+          />
+        </div>
+      </div>
+
+      <div class="mb-3" *ngIf="profilePreviewUrl">
+        <label class="form-label text-primary mb-2">Preview</label>
+        <img [src]="profilePreviewUrl" alt="Profile preview" class="profile-preview" />
+      </div>
+
+      <div class="d-flex justify-content-center mb-3">
+        <button type="submit" class="btn btn-primary text-white w-50 m-auto" [disabled]="loading">
+          {{ loading ? 'Creating account...' : 'Register' }}
+        </button>
+      </div>
+    </form>
+
+    <p class="auth-footer text-center mb-0">
+      Already have an account?
+      <a routerLink="/login">Back to login</a>
+    </p>
+  </section>
+</main>

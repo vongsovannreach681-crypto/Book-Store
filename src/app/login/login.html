@@ -1,0 +1,66 @@
+<main class="mt-5 d-flex justify-content-center bg-white  ">
+  
+  <section class=" w-25 h-full rounded-3 p-4 shadow">
+    <div class="auth-card-accent"></div>
+    <div class="auth-card-header">
+      <h2 class="text-primary text-center"><b>Login</b></h2>
+    </div>
+
+    <div *ngIf="error" class="auth-alert auth-alert-error">{{ error }}</div>
+    <div *ngIf="success" class="auth-alert auth-alert-success">{{ success }}</div>
+
+    <form class="auth-form" (ngSubmit)="submit()">
+      <!-- <label class="field">
+        <span>Email</span>
+        <input type="email" [(ngModel)]="form.email" name="email" placeholder="Enter Your Email" />
+      </label>
+
+      <label class="field">
+        <span>Password</span>
+        <input
+          type="password"
+          [(ngModel)]="form.password"
+          name="password"
+          placeholder="Enter your password"
+        />
+      </label> -->
+      <label for="" class="text-primary mb-2">email</label>
+      <div class="input-group mb-3">
+        <span class="input-group-text bg-primary text-white" id="basic-addon1"><i class="bi bi-envelope"></i></span>
+        <input
+          type="email"
+          [(ngModel)]="form.email"
+          name="email"
+          class="form-control "
+          placeholder="enter your email"
+          aria-label="email"
+          aria-describedby="basic-addon1"
+        />
+      </div>
+      <label for="" class="text-primary mb-2">password</label>
+      <div class="input-group mb-3">
+        <span class="input-group-text bg-primary text-white" id="basic-addon1"><i class="bi bi-lock-fill"></i></span>
+        <input
+          type="password"
+          [(ngModel)]="form.password"
+          name="password"
+          class="form-control"
+          placeholder="enter your password"
+          aria-label="password"
+          aria-describedby="basic-addon1"
+        />
+      </div>
+
+      <div class="d-flex justify-content-center mb-3">
+        <button type="submit" class="btn btn-primary text-white w-50 m-auto" [disabled]="loading">
+        {{ loading ? 'Signing in...' : 'Login' }}
+      </button>
+      </div>
+    </form>
+
+    <p class="auth-footer">
+      Don’t have an account?
+      <a routerLink="/register">Create one here</a>
+    </p>
+  </section>
+</main>

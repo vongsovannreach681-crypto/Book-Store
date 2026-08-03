@@ -1,0 +1,43 @@
+.auth-page {
+  padding: 0 16px 40px;
+}
+
+.register-card {
+  width: min(720px, 100%);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.95)),
+    #fff;
+}
+
+.register-card .auth-card-header h2 {
+  letter-spacing: -0.03em;
+}
+
+.register-card .form-label {
+  font-weight: 700;
+}
+
+.register-card .input-group-text {
+  min-width: 46px;
+  justify-content: center;
+}
+
+.register-card .profile-preview {
+  width: 100%;
+  max-height: 220px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+}
+
+.register-card .auth-footer a {
+  font-weight: 700;
+  text-decoration: none;
+}
+
+@media (max-width: 576px) {
+  .register-card {
+    padding: 1.25rem !important;
+  }
+}

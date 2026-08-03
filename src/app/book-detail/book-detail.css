@@ -1,0 +1,138 @@
+.detail-page {
+  max-width: 1100px;
+  margin: 32px auto 0;
+  padding: 0 18px 40px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.detail-shell {
+  background: #fff;
+  border: 1px solid rgba(13, 110, 253, 0.14);
+  border-radius: 18px;
+  box-shadow: 0 12px 28px rgba(13, 110, 253, 0.08);
+  padding: 24px;
+}
+
+.back-btn {
+  border: none;
+  background: var(--bs-warning);
+  color: #000;
+  font-weight: 600;
+  border-radius: 10px;
+  padding: 10px 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  margin-bottom: 22px;
+}
+
+.loading-state,
+.error-state {
+  padding: 20px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.loading-state {
+  background: rgba(13, 110, 253, 0.05);
+  color: var(--bs-primary);
+}
+
+.error-state {
+  background: rgba(220, 53, 69, 0.08);
+  color: #b02a37;
+}
+
+.detail-card {
+  display: grid;
+  grid-template-columns: minmax(260px, 360px) 1fr;
+  gap: 28px;
+  align-items: center;
+}
+
+.detail-image-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.detail-image {
+  width: 100%;
+  max-width: 320px;
+  height: 420px;
+  object-fit: cover;
+  border-radius: 5px;
+  border: 1px solid rgba(13, 110, 253, 0.18);
+  box-shadow: 0 8px 20px rgba(13, 110, 253, 0.1);
+}
+
+.detail-placeholder {
+  width: 100%;
+  max-width: 320px;
+  height: 320px;
+  border-radius: 18px;
+  background: rgba(255, 193, 7, 0.12);
+  border: 1px dashed rgba(255, 193, 7, 0.6);
+  color: var(--bs-warning);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.detail-info {
+  color: #212529;
+}
+
+.detail-badge {
+  display: inline-block;
+  background: rgba(13, 110, 253, 0.1);
+  color: var(--bs-primary);
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.detail-info h1 {
+  margin: 0 0 18px;
+  font-size: clamp(2rem, 3vw, 3rem);
+  color: var(--bs-primary);
+}
+
+.meta-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(160px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.meta-row label,
+.description-box label {
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6c757d;
+  font-size: 0.8rem;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+.meta-row p,
+.description-box p {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+
+@media (max-width: 768px) {
+  .detail-card {
+    grid-template-columns: 1fr;
+  }
+
+  .meta-row {
+    grid-template-columns: 1fr;
+  }
+}

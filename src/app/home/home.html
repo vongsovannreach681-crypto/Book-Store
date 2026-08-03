@@ -1,0 +1,70 @@
+<main>
+  <!-- hero Section -->
+  <section class="library-hero position-relative overflow-hidden">
+    <div class="diagonal-panel"></div>
+
+    <div class="container-fluid d-flex  position-relative z-2">
+        <div class="row align-items-center" style="min-height: 65vh;">       
+            <div class="col-lg-8  " style="padding-right: 10rem; padding-left: 10rem;">
+                <h3 class="fw-bold poppins text-primary">Welcome to!</h3>
+                <h1 class="fw-bold poppins text-warning " style="font-size: 58px;"><span class="text-primary">SETEC</span> LIBRARY</h1>
+                <h3 class=" poppins text-primary ">Start shopping your favorite books now!</h3>
+                <p class=" poppins">Embark on a literary journey like never before with our revolutionary library application. Introducing a seamless experience where you can effortlessly search your favorite books.</p>
+                <button type="button" class="btn btn-primary poppins primary-action">
+                    Explore Now <span><i class="bi bi-arrow-right"></i></span>
+                </button>
+            </div>
+        </div>
+        <div class="col-lg-4 d-none d-lg-block position-relative">
+            <img src="assets/images/book4.png" alt="Hero Image" class="img-fluid">
+        </div>
+    </div>
+</section>
+
+<section class="container py-5">
+  <div class="d-flex align-items-end justify-content-between flex-wrap gap-3 mb-4">
+    <div>
+      <p class="text-uppercase text-primary fw-bold small mb-2">Featured Books</p>
+      <h2 class="fw-bold mb-0">Picked from the live catalog</h2>
+    </div>
+    <a routerLink="/books" class="btn btn-outline-primary fw-semibold">View all books</a>
+  </div>
+
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-primary mb-3" role="status" aria-hidden="true"></div>
+    <div class="fw-semibold text-primary">Loading featured books...</div>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger border-0 fw-semibold">{{ error }}</div>
+
+  <div class="row" *ngIf="!loading && !error">
+    <div class="col-12 col-sm-6 col-lg-4 d-flex justify-content-center" *ngFor="let book of featuredBooks">
+      <div class="card featured-book-card shadow-sm">
+        <div class="card-img-wrap ">
+          <img
+            *ngIf="book.imageUrl; else noImage"
+            [src]="resolveImageUrl(book.imageUrl)"
+            [alt]="book.name"
+            class="card-img-top book-cover"
+          />
+          <ng-template #noImage>
+            <div class="book-cover card-no-image">No Image</div>
+          </ng-template>
+        </div>
+
+        <div class=" p-3">
+          <h5 class="card-title mb-2">{{ book.name }}</h5>
+          <p class="card-text text-secondary small mb-3">
+            {{ book.description || 'No description available.' }}
+          </p>
+          <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap mb-3">
+            <span class=" ">{{ book.category }}</span>
+            <span class=" ">${{ book.price | number: '1.2-2' }}</span>
+          </div>
+          <a [routerLink]="['/books', book.id]" class="btn btn-primary w-100">View details</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>

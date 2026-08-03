@@ -1,0 +1,72 @@
+.poppins {
+  font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.library-hero {
+    background-color: #ffffff;
+    background-image:
+        linear-gradient(to right, rgba(30, 58, 138, 0.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(30, 58, 138, 0.08) 1px, transparent 1px);
+    background-size: 36px 36px;
+}
+
+.diagonal-panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width:25%;
+    /* height: 100%; */
+    background-color: #2a39b0;
+    clip-path: polygon(35% 0, 100% 0, 100% 100%, 0 100%);
+    z-index: 1;
+}
+
+.book-stack {
+    position: relative;
+    height: 350px;
+    max-width: 240px;
+}
+
+.featured-book-card {
+    width: 18rem;
+    border: 0;
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.featured-book-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 1rem 2rem rgba(15, 23, 42, 0.12) !important;
+}
+
+.card-img-wrap {
+    height: 180px;
+    background: linear-gradient(180deg, #f8f9fa 0%, #eef2ff 100%);
+}
+
+.book-cover,
+.card-no-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-no-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #1d4ed8;
+    background: linear-gradient(180deg, #e0f2fe 0%, #dbeafe 100%);
+}
+
+.featured-book-card .card-title {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.featured-book-card .card-text {
+    line-height: 1.55;
+    min-height: 3.1em;
+}

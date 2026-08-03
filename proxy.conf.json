@@ -1,0 +1,8 @@
+{
+  "/api": {
+    "target": "https://vorngsovannreach.setec24.uk",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}
