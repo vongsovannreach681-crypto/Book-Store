@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 export interface Product {
   id: number;
@@ -30,19 +30,19 @@ export class BookService {
   constructor(private http: HttpClient) {}
 
   getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.apiUrl);
+    return this.http.get<Product[] | null>(this.apiUrl).pipe(map((products) => products ?? []));
   }
 
-  getProductById(id: number): Observable<Product> {
-    return this.http.get<Product>(`${this.apiUrl}/${id}`);
+  getProductById(id: number): Observable<Product | null> {
+    return this.http.get<Product | null>(`${this.apiUrl}/${id}`);
   }
 
-  createProduct(product: ProductFormValue, imageFile: File): Observable<Product> {
-    return this.http.post<Product>(this.apiUrl, this.buildFormData(product, imageFile));
+  createProduct(product: ProductFormValue, imageFile: File): Observable<Product | null> {
+    return this.http.post<Product | null>(this.apiUrl, this.buildFormData(product, imageFile));
   }
 
-  updateProduct(id: number, product: ProductFormValue, imageFile: File): Observable<Product> {
-    return this.http.put<Product>(`${this.apiUrl}/${id}`, this.buildFormData(product, imageFile));
+  updateProduct(id: number, product: ProductFormValue, imageFile: File): Observable<Product | null> {
+    return this.http.put<Product | null>(`${this.apiUrl}/${id}`, this.buildFormData(product, imageFile));
   }
 
   deleteProduct(id: number): Observable<void> {

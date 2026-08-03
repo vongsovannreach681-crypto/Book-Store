@@ -33,6 +33,12 @@ export class BookDetail implements OnInit {
 
     this.bookService.getProductById(id).subscribe({
       next: (product) => {
+        if (!product) {
+          this.error = 'The backend returned no product details.';
+          this.loading = false;
+          return;
+        }
+
         this.product = product;
         this.loading = false;
       },

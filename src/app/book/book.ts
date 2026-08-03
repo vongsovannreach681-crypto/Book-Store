@@ -102,6 +102,11 @@ export class Book implements OnInit {
     this.error = '';
     this.bookService.getProductById(id).subscribe({
       next: (product) => {
+        if (!product) {
+          this.error = 'The backend returned no product details.';
+          return;
+        }
+
         this.isEditing = true;
         this.productForm = { ...product };
         this.selectedImageFile = null;
@@ -160,7 +165,11 @@ export class Book implements OnInit {
     if (this.isEditing && this.productForm.id) {
       this.bookService.updateProduct(this.productForm.id, payload, imageFile).subscribe({
         next: (updatedProduct) => {
-          this.upsertProduct(updatedProduct);
+          if (updatedProduct) {
+            this.upsertProduct(updatedProduct);
+          } else {
+            this.loadProducts();
+          }
           this.closeModal();
           this.saving = false;
         },
@@ -174,8 +183,12 @@ export class Book implements OnInit {
 
     this.bookService.createProduct(payload, imageFile).subscribe({
       next: (createdProduct) => {
-        this.products = [createdProduct, ...this.products];
-        this.refreshCategoryState();
+        if (createdProduct) {
+          this.products = [createdProduct, ...this.products];
+          this.refreshCategoryState();
+        } else {
+          this.loadProducts();
+        }
         this.closeModal();
         this.saving = false;
       },
