@@ -44,6 +44,7 @@
         <tr>
           <th>ProdID</th>
           <th>Title</th>
+          <th>Description</th>
           <th>Price (S)</th>
           <th>Category</th>
           <th>Qty</th>
@@ -53,12 +54,19 @@
       </thead>
       <tbody>
         <tr *ngFor="let product of filteredProducts(); trackBy: trackByProductId">
-          <td>{{ product.id }}</td>
-          <td>{{ product.name }}</td>
-          <td>{{ product.price | number: '1.2-2' }}</td>
-          <td>{{ product.category }}</td>
-          <td>{{ product.qty }}</td>
+          <td class="id-cell">{{ product.id }}</td>
           <td>
+            <div class="text-clamp-2 book-title">{{ product.name }}</div>
+          </td>
+          <td class="description-cell">
+            <div class="text-clamp-2">
+              {{ product.description || 'No description available.' }}
+            </div>
+          </td>
+          <td class="price-cell">{{ product.price | number: '1.2-2' }}</td>
+          <td class="category-cell">{{ product.category }}</td>
+          <td class="qty-cell">{{ product.qty }}</td>
+          <td class="image-cell">
             <img
               *ngIf="product.imageUrl; else noImage"
               [src]="resolveImageUrl(product.imageUrl)"

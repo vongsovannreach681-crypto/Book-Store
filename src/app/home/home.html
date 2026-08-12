@@ -21,35 +21,200 @@
   </section>
   <!--card  -->
   <section>
-    <a routerLink="/books" class=" btn btn-outline-primary btn-sm mx-5 mt-5">View All Books</a>
   </section>
-  <section class="d-flex justify-content-center gap-5 flex-wrap py-5">
+  <section class="container m-auto">
+    
+
+    <div class="filter-controls">
+      <div class="search-field">
+        <i class="bi bi-search"></i>
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          placeholder="Search by title, description, or category"
+          aria-label="Search books"
+        />
+      </div>
+
+      <div class="category-field">
+        <i class="bi bi-funnel"></i>
+        <select [(ngModel)]="selectedCategory" aria-label="Filter by category">
+          <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="filter-summary">
+      <span>{{ filteredBooks.length }} book(s) shown</span>
+      <span *ngIf="searchTerm || selectedCategory !== 'All'">Filtered results</span>
+    </div>
+  </section>
+
+  <section class="book-grid py-5">
     <!-- loading -->
     <div *ngIf="loading" class="text-center py-5">
       <div class="spinner-border text-primary mb-3" role="status" aria-hidden="true"></div>
-      <div class="fw-semibold text-primary">Loading featured books...</div>
+      <div class="fw-semibold text-primary">Loading books...</div>
     </div>
 
     <!-- error -->
     <div *ngIf="error" class="alert alert-danger border-0 fw-semibold">{{ error }}</div>
 
-    <div class="card" *ngFor="let book of featuredBooks">
-      <div class="card-body">
-        <img
-          *ngIf="book.imageUrl"
-          [src]="resolveImageUrl(book.imageUrl)"
-          [alt]="book.name"
-          class="rounded-2"
-          style="width: 270px; height: 230px; object-fit: cover; margin-bottom: 10px"
-        />
-        <h5 class="card-title">{{ book.name }}</h5>
-        <p class="card-text">{{ book.description }}</p>
-        <div class="d-flex justify-content-between">
-          <p class="card-text text-danger fw-semibold">Price : {{ book.price }}$</p>
-          <p class="card-text">Stock : {{ book.qty }} Left</p>
+    <div *ngIf="!loading && !error && filteredBooks.length === 0" class="empty-state">
+      <i class="bi bi-search"></i>
+      <h4>No books match your filters</h4>
+      <p>Try a different search term or clear the category filter.</p>
+    </div>
+
+    <div class="featured-card-grid">
+      <article class="featured-card" *ngFor="let book of displayBooks">
+        <div class="featured-card-inner">
+          <div class="featured-image-wrap">
+            <img
+              *ngIf="book.imageUrl"
+              [src]="resolveImageUrl(book.imageUrl)"
+              [alt]="book.name"
+              class="featured-image"
+            />
+          </div>
+
+          <div class="featured-card-body">
+            <div class="featured-topline">
+              <span class="featured-flag">Featured</span>
+              <span class="featured-tag">{{ book.category || 'Book' }}</span>
+            </div>
+
+            <h5 class="featured-title">{{ book.name }}</h5>
+
+            <div class="featured-rating" [attr.aria-label]="getRating(book) + ' out of 5 stars'">
+              <span class="stars">
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-half"></i>
+              </span>
+              <span class="rating-value">({{ getRating(book) | number:'1.1-1' }})</span>
+            </div>
+
+            <p class="featured-description">{{ book.description }}</p>
+
+            <div class="featured-meta">
+              <span class="meta-pill">
+                <i class="bi bi-cash-coin"></i>
+                {{ book.price | currency:'USD':'symbol' }}
+              </span>
+              <span class="meta-pill">
+                <i class="bi bi-box-seam"></i>
+                Qty: {{ book.qty }}
+              </span>
+            </div>
+
+            <div class="featured-actions">
+              <button type="button" class="icon-btn" aria-label="Favorite book">
+                <i class="bi bi-heart"></i>
+              </button>
+              <a [routerLink]="['/books', book.id]" class="btn btn-primary">
+                Buy Now <i class="bi bi-book"></i>
+              </a>
+            </div>
+          </div>
         </div>
-        <a [routerLink]="['/books', book.id]" class="btn btn-primary">View Details</a>
+      </article>
+    </div>
+
+    <div *ngIf="filteredBooks.length > 4" class="d-flex justify-content-center mt-4">
+      <a routerLink="/books" class="btn btn-primary px-4">
+        See More <i class="bi bi-arrow-right"></i>
+      </a>
+    </div>
+  </section>
+
+  <section class="footer-showcase">
+    <div class="footer-wave"></div>
+    <div class="footer-showcase-inner">
+      <div class="section-heading">
+        <p class="eyebrow">Discover More</p>
+        <h2>How SETEC LIBRARY Works</h2>
+        <p>
+          Your journey to unlimited knowledge in a few simple steps.
+        </p>
+      </div>
+
+      <div class="works-grid">
+        <article class="work-card">
+          <div class="icon-badge">
+            <i class="bi bi-search"></i>
+          </div>
+          <h3>Discover Books</h3>
+          <p>Browse curated categories and find your next favorite title in seconds.</p>
+        </article>
+
+        <article class="work-card">
+          <div class="icon-badge">
+            <i class="bi bi-book-half"></i>
+          </div>
+          <h3>Read Instantly</h3>
+          <p>Open a book detail page and jump straight into the story or information.</p>
+        </article>
+
+        <article class="work-card">
+          <div class="icon-badge">
+            <i class="bi bi-people"></i>
+          </div>
+          <h3>Contribute & Share</h3>
+          <p>Add your own books, share reviews, and help the collection grow.</p>
+        </article>
+      </div>
+
+      <div class="cta-panel">
+        <h3>Start Reading with us Today</h3>
+        <div class="cta-form">
+          <input type="email" placeholder="Enter your email address" aria-label="Email address" />
+          <a routerLink="/register" class="btn btn-accent">Sign Up Now!</a>
+        </div>
+        <p>Join our growing community and access thousands of books and resources.</p>
       </div>
     </div>
   </section>
+
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <div class="brand-block">
+        <img src="NobgLogo.png" alt="LibreShelf" class="footer-logo" />
+        <p>
+          The open library for everyone. Read, learn, and contribute to the community.
+        </p>
+        <div class="social-links">
+          <a href="#" aria-label="Telegram"><i class="bi bi-telegram"></i></a>
+          <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+          <a href="#" aria-label="GitHub"><i class="bi bi-github"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-links">
+        <h4>Book Category</h4>
+        <div class="link-grid">
+          <a routerLink="/books">History</a>
+          <a routerLink="/books">Biography</a>
+          <a routerLink="/books">Horror - Thriller</a>
+          <a routerLink="/books">Astrology</a>
+          <a routerLink="/books">Love Stories</a>
+          <a routerLink="/books">Digital Marketing</a>
+          <a routerLink="/books">Science Fiction</a>
+          <a routerLink="/books">Software Development</a>
+          <a routerLink="/books">Business</a>
+          <a routerLink="/books">Self-Help</a>
+        </div>
+      </div>
+
+      <div class="footer-links footer-links-short">
+        <h4>Sitemap</h4>
+        <a routerLink="/">Home</a>
+        <a routerLink="/books">Books</a>
+        <a routerLink="/about">About Us</a>
+        <a routerLink="/contact">Contact Support</a>
+      </div>
+    </div>
+  </footer>
 </main>

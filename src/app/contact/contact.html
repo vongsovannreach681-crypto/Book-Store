@@ -1,1 +1,185 @@
-<p>contact works!</p>
+<main class="page-section mt-5">
+  <section class="container">
+    <div class="contact-hero">
+      <div>
+      
+        <img class="contact-image" src="NobgLogo.png" alt="Contact illustration" />
+      </div>
+      <form class="contact-form bg-white shadow" (ngSubmit)="saveData()">
+        <h1 class="text-center text-primary poppins mb-4"><b>Your Information</b></h1>
+
+        <label for="fullname" class="form-label poppins">Full Name</label>
+        <div class="mb-3 input-group">
+          <span class="input-group-text bg-primary text-white"
+            ><i class="bi bi-person-circle"></i
+          ></span>
+          <input
+            type="text"
+            class="form-control"
+            name="fullname"
+            id="fullname"
+            [(ngModel)]="contact.fullname"
+            placeholder="Enter your full name"
+          />
+        </div>
+
+        <label for="email" class="form-label poppins">Email</label>
+        <div class="mb-3 input-group">
+          <span class="input-group-text bg-primary text-white"><i class="bi bi-envelope"></i></span>
+          <input
+            type="email"
+            class="form-control"
+            name="email"
+            id="email"
+            [(ngModel)]="contact.email"
+            placeholder="Enter your email"
+          />
+        </div>
+
+        <label for="phoneNumber" class="form-label poppins">Phone Number</label>
+        <div class="mb-3 input-group">
+          <span class="input-group-text bg-primary text-white"
+            ><i class="bi bi-telephone-fill"></i
+          ></span>
+          <input
+            type="text"
+            name="phoneNumber"
+            id="phoneNumber"
+            class="form-control"
+            [(ngModel)]="contact.phoneNumber"
+            placeholder="Enter your phone number"
+          />
+        </div>
+
+        <label for="position" class="form-label poppins">Position</label>
+        <div class="mb-3 input-group">
+          <span class="input-group-text bg-primary text-white"
+            ><i class="bi bi-person-workspace"></i
+          ></span>
+          <select id="position" class="form-select" [(ngModel)]="contact.position" name="position" >
+            <option value="Web Developer ">Web Developer</option>
+            <option value="Graphic Designer">Graphic Designer</option>
+            <option value="Mobile App Developer">Mobile App Developer</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="message" class="form-label poppins">Message</label>
+          <textarea
+            id="message"
+            name="message"
+            class="form-control"
+            rows="4"
+            [(ngModel)]="contact.message"
+            placeholder="Enter your message here"
+          ></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-2 poppins w-100">
+          <i class="bi bi-send-fill"></i>
+          {{ editIndex === -1 ? 'Send Message' : 'Update Message' }}
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <section class="container mt-5">
+    <div class="row g-4">
+      <h3 class="poppins text-left text-primary mb-4"><b>Customer Messages</b></h3>
+      <div class="col-12 col-md-6 col-lg-4" *ngFor="let item of contacts; let i = index">
+        <div class="card shadow-sm h-100">
+          <div class="card-body">
+            <div class="bg-primary text-center text-white message-avatar mb-3">
+              <i class="bi bi-person-circle"></i>
+            </div>
+            <h4 class="text-primary poppins text-center">
+              <b>{{ item.fullname }}</b>
+            </h4>
+            <p class="poppins pt-3 mb-1">
+              <i class="bi bi-envelope px-2 text-white p-1 me-2 rounded-3 bg-primary"></i
+              >{{ item.email }}
+            </p>
+            <p class="poppins pt-3 mb-1">
+              <i
+                class="bi bi-envelope-arrow-up-fill px-2 text-white p-1 me-2 rounded-3 bg-danger"
+              ></i
+              >{{ item.phoneNumber }}
+            </p>
+            <p class="poppins pt-3 mb-1">
+              <i class="bi bi-person-workspace px-2 text-white p-1 me-2 rounded-3 bg-warning"></i
+              >{{ item.position }}
+            </p>
+            <p class="poppins pt-3 mb-0">
+              <i class="bi bi-chat-dots-fill px-2 text-white p-1 me-2 rounded-3 bg-primary"></i
+              >{{ item.message }}
+            </p>
+          </div>
+          <div class="card-footer bg-white d-flex justify-content-between gap-2">
+            <button class="btn btn-outline-primary poppins flex-fill" (click)="editContact(i)">
+              <i class="bi bi-pencil-square me-2"></i>
+              <b>Edit</b>
+            </button>
+
+            <button class="btn btn-outline-danger poppins flex-fill" (click)="deleteContact(i)">
+              <i class="bi bi-trash3-fill me-2"></i>
+              <b>Delete</b>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container mt-5">
+    <h3 class="poppins text-left border-bottom-2 text-primary mb-4"><b>Check My Location</b></h3>
+    <div class="ratio ratio-16x9 location-frame shadow-sm rounded-4 overflow-hidden">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d2318.281704430337!2d104.89285467395257!3d11.56902869265848!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1skm!2skh!4v1781857170942!5m2!1skm!2skh"
+        style="border: 0"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </div>
+  </section>
+
+  <footer class="site-footer mt-5">
+    <div class="site-footer-inner">
+      <div class="brand-block">
+        <img src="NobgLogo.png" alt="LibreShelf" class="footer-logo" />
+        <p>
+          The open library for everyone. Read, learn, and contribute to the community.
+        </p>
+        <div class="social-links">
+          <a href="#" aria-label="Telegram"><i class="bi bi-telegram"></i></a>
+          <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+          <a href="#" aria-label="GitHub"><i class="bi bi-github"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-links">
+        <h4>Book Category</h4>
+        <div class="link-grid">
+          <a routerLink="/books">History</a>
+          <a routerLink="/books">Biography</a>
+          <a routerLink="/books">Horror - Thriller</a>
+          <a routerLink="/books">Astrology</a>
+          <a routerLink="/books">Love Stories</a>
+          <a routerLink="/books">Digital Marketing</a>
+          <a routerLink="/books">Science Fiction</a>
+          <a routerLink="/books">Software Development</a>
+          <a routerLink="/books">Business</a>
+          <a routerLink="/books">Self-Help</a>
+        </div>
+      </div>
+
+      <div class="footer-links footer-links-short">
+        <h4>Sitemap</h4>
+        <a routerLink="/">Home</a>
+        <a routerLink="/books">Books</a>
+        <a routerLink="/about">About Us</a>
+        <a routerLink="/contact">Contact Support</a>
+      </div>
+    </div>
+  </footer>
+</main>
