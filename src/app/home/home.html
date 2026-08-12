@@ -42,54 +42,12 @@
         />
         <h5 class="card-title">{{ book.name }}</h5>
         <p class="card-text">{{ book.description }}</p>
+        <div class="d-flex justify-content-between">
+          <p class="card-text text-danger fw-semibold">Price : {{ book.price }}$</p>
+          <p class="card-text">Stock : {{ book.qty }} Left</p>
+        </div>
         <a [routerLink]="['/books', book.id]" class="btn btn-primary">View Details</a>
-        <img src="" alt="" />
       </div>
     </div>
   </section>
-  <!-- <section class="container py-5">
-    <div class="d-flex align-items-end justify-content-between flex-wrap gap-3 mb-4">
-      <div>
-        <p class="text-uppercase text-primary fw-bold small mb-2">Featured Books</p>
-      </div>
-      <a routerLink="/books" class="btn btn-outline-primary fw-semibold">View all books</a>
-    </div>
-
-    <div *ngIf="loading" class="text-center py-5">
-      <div class="spinner-border text-primary mb-3" role="status" aria-hidden="true"></div>
-      <div class="fw-semibold text-primary">Loading featured books...</div>
-    </div>
-
-    <div *ngIf="error" class="alert alert-danger border-0 fw-semibold">{{ error }}</div>
-
-    <div class="row" *ngIf="!loading && !error">
-      <div class="d-flex justify-content-center flex-wrap gap-3 mb-4" *ngFor="let book of featuredBooks">
-        <div class="card featured-book-card shadow-sm">
-          <div class="card-img-wrap">
-            <img
-              *ngIf="book.imageUrl; else noImage"
-              [src]="resolveImageUrl(book.imageUrl)"
-              [alt]="book.name"
-              class="card-img-top book-cover p-2 rounded-xl"
-            />
-            <ng-template #noImage>
-              <div class="book-cover card-no-image">No Image</div>
-            </ng-template>
-          </div>
-
-          <div class="p-3">
-            <h5 class="card-title mb-2">{{ book.name }}</h5>
-            <p class="card-text text-secondary small mb-3">
-              {{ book.description || 'No description available.' }}
-            </p>
-            <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap mb-3">
-              <span>{{ book.category }}</span>
-              <span>${{ book.price | number: '1.2-2' }}</span>
-            </div>
-            <a [routerLink]="['/books', book.id]" class="btn btn-primary w-100">View details</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section> -->
 </main>
