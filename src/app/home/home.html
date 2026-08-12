@@ -1,69 +1,95 @@
 <main>
-  <!-- hero Section -->
-  <section class="library-hero position-relative overflow-hidden">
-    <div class="diagonal-panel"></div>
-
-    <div class="container-fluid d-flex  position-relative z-2">
-        <div class="row align-items-center" style="min-height: 65vh;">       
-            <div class="col-lg-8  " style="padding-right: 10rem; padding-left: 10rem;">
-                <h3 class="fw-bold poppins text-primary">Welcome to!</h3>
-                <h1 class="fw-bold poppins text-warning " style="font-size: 58px;"><span class="text-primary">SETEC</span> LIBRARY</h1>
-                <h3 class=" poppins text-primary ">Start shopping your favorite books now!</h3>
-                <p class=" poppins">Embark on a literary journey like never before with our revolutionary library application. Introducing a seamless experience where you can effortlessly search your favorite books.</p>
-                <button type="button" class="btn btn-primary poppins primary-action">
-                    Explore Now <span><i class="bi bi-arrow-right"></i></span>
-                </button>
-            </div>
-        </div>
-        <div class="col-lg-4 d-none d-lg-block position-relative">
-            <img src="assets/images/book4.png" alt="Hero Image" class="img-fluid">
-        </div>
-    </div>
-</section>
-
-<section class="container py-5">
-  <div class="d-flex align-items-end justify-content-between flex-wrap gap-3 mb-4">
-    <div>
-      <p class="text-uppercase text-primary fw-bold small mb-2">Featured Books</p>
-    </div>
-    <a routerLink="/books" class="btn btn-outline-primary fw-semibold">View all books</a>
-  </div>
-
-  <div *ngIf="loading" class="text-center py-5">
-    <div class="spinner-border text-primary mb-3" role="status" aria-hidden="true"></div>
-    <div class="fw-semibold text-primary">Loading featured books...</div>
-  </div>
-
-  <div *ngIf="error" class="alert alert-danger border-0 fw-semibold">{{ error }}</div>
-
-  <div class="row" *ngIf="!loading && !error">
-    <div class="col-12 col-sm-6 col-lg-4 d-flex justify-content-center" *ngFor="let book of featuredBooks">
-      <div class="card featured-book-card shadow-sm">
-        <div class="card-img-wrap ">
-          <img
-            *ngIf="book.imageUrl; else noImage"
-            [src]="resolveImageUrl(book.imageUrl)"
-            [alt]="book.name"
-            class="card-img-top book-cover"
-          />
-          <ng-template #noImage>
-            <div class="book-cover card-no-image">No Image</div>
-          </ng-template>
-        </div>
-
-        <div class=" p-3">
-          <h5 class="card-title mb-2">{{ book.name }}</h5>
-          <p class="card-text text-secondary small mb-3">
-            {{ book.description || 'No description available.' }}
+  <section class="shadow mx-2 my-4 rounded-2 bg-white">
+    <div class="row g-0">
+      <div class="col-md-6 d-flex align-items-center justify-content-center p-5">
+        <div>
+          <h1 class="display-5 fw-bold text-primary">
+            Welcome to SETEC <span class="text-warning">LIBRARY</span>
+          </h1>
+          <h2 class="text-primary">Your Gateway to Knowledge</h2>
+          <p class="lead mb-4">
+            Discover a world of knowledge and imagination at our bookstore. Explore our wide
+            selection of books across various genres and find your next great read.
           </p>
-          <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap mb-3">
-            <span class=" ">{{ book.category }}</span>
-            <span class=" ">${{ book.price | number: '1.2-2' }}</span>
+          <a routerLink="/books" class="btn btn-primary btn-lg">Browse Books</a>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <img src="assets/images/book4.png" class="img-fluid rounded-end" alt="Bookstore Image" />
+      </div>
+    </div>
+  </section>
+  <!--card  -->
+
+  <section class="d-flex justify-content-center gap-5 flex-wrap py-5">
+    <!-- loading -->
+    <div *ngIf="loading" class="text-center py-5">
+      <div class="spinner-border text-primary mb-3" role="status" aria-hidden="true"></div>
+      <div class="fw-semibold text-primary">Loading featured books...</div>
+    </div>
+
+    <!-- error -->
+    <div *ngIf="error" class="alert alert-danger border-0 fw-semibold">{{ error }}</div>
+
+    <div class="card" *ngFor="let book of featuredBooks">
+      <div class="card-body">
+        <img
+          *ngIf="book.imageUrl"
+          [src]="resolveImageUrl(book.imageUrl)"
+          [alt]="book.name"
+          class="rounded-2"
+          style="width: 270px; height: 230px; object-fit: cover; margin-bottom: 10px"
+        />
+        <h5 class="card-title">{{ book.name }}</h5>
+        <p class="card-text">{{ book.description }}</p>
+        <a [routerLink]="['/books', book.id]" class="btn btn-primary">View Details</a>
+        <img src="" alt="" />
+      </div>
+    </div>
+  </section>
+  <!-- <section class="container py-5">
+    <div class="d-flex align-items-end justify-content-between flex-wrap gap-3 mb-4">
+      <div>
+        <p class="text-uppercase text-primary fw-bold small mb-2">Featured Books</p>
+      </div>
+      <a routerLink="/books" class="btn btn-outline-primary fw-semibold">View all books</a>
+    </div>
+
+    <div *ngIf="loading" class="text-center py-5">
+      <div class="spinner-border text-primary mb-3" role="status" aria-hidden="true"></div>
+      <div class="fw-semibold text-primary">Loading featured books...</div>
+    </div>
+
+    <div *ngIf="error" class="alert alert-danger border-0 fw-semibold">{{ error }}</div>
+
+    <div class="row" *ngIf="!loading && !error">
+      <div class="d-flex justify-content-center flex-wrap gap-3 mb-4" *ngFor="let book of featuredBooks">
+        <div class="card featured-book-card shadow-sm">
+          <div class="card-img-wrap">
+            <img
+              *ngIf="book.imageUrl; else noImage"
+              [src]="resolveImageUrl(book.imageUrl)"
+              [alt]="book.name"
+              class="card-img-top book-cover p-2 rounded-xl"
+            />
+            <ng-template #noImage>
+              <div class="book-cover card-no-image">No Image</div>
+            </ng-template>
           </div>
-          <a [routerLink]="['/books', book.id]" class="btn btn-primary w-100">View details</a>
+
+          <div class="p-3">
+            <h5 class="card-title mb-2">{{ book.name }}</h5>
+            <p class="card-text text-secondary small mb-3">
+              {{ book.description || 'No description available.' }}
+            </p>
+            <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap mb-3">
+              <span>{{ book.category }}</span>
+              <span>${{ book.price | number: '1.2-2' }}</span>
+            </div>
+            <a [routerLink]="['/books', book.id]" class="btn btn-primary w-100">View details</a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section> -->
 </main>

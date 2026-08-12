@@ -17,7 +17,7 @@ export class Book implements OnInit {
   searchTerm = '';
   selectedCategory = 'All';
   currentPage = 1;
-  pageSize = 5;
+  pageSize = 7;
   totalPages = 1;
   categories: string[] = [];
   error = '';
@@ -57,21 +57,7 @@ export class Book implements OnInit {
   }
 
   filteredProducts(): Product[] {
-    const term = this.searchTerm.trim().toLowerCase();
-
-    const filtered = this.products.filter((product) => {
-      const matchesSearch =
-        !term ||
-        product.name.toLowerCase().includes(term) ||
-        product.category.toLowerCase().includes(term) ||
-        product.description.toLowerCase().includes(term);
-
-      const matchesCategory =
-        this.selectedCategory === 'All' || product.category === this.selectedCategory;
-
-      return matchesSearch && matchesCategory;
-    });
-
+    const filtered = this.getFilteredProducts();
     this.totalPages = Math.max(1, Math.ceil(filtered.length / this.pageSize));
 
     if (this.currentPage > this.totalPages) {
@@ -83,7 +69,12 @@ export class Book implements OnInit {
   }
 
   updateTotalPages(): void {
-    this.totalPages = Math.max(1, Math.ceil(this.filteredProducts().length / this.pageSize));
+    const filteredCount = this.getFilteredProducts().length;
+    this.totalPages = Math.max(1, Math.ceil(filteredCount / this.pageSize));
+
+    if (this.currentPage > this.totalPages) {
+      this.currentPage = this.totalPages;
+    }
   }
 
   trackByProductId(_: number, product: Product): number {
@@ -224,6 +215,31 @@ export class Book implements OnInit {
 
   onCategoryChange(): void {
     this.currentPage = 1;
+  }
+
+  getPageNumbers(): number[] {
+    const pages: number[] = [];
+    for (let page = 1; page <= this.totalPages; page += 1) {
+      pages.push(page);
+    }
+    return pages;
+  }
+
+  private getFilteredProducts(): Product[] {
+    const term = this.searchTerm.trim().toLowerCase();
+
+    return this.products.filter((product) => {
+      const matchesSearch =
+        !term ||
+        product.name.toLowerCase().includes(term) ||
+        product.category.toLowerCase().includes(term) ||
+        product.description.toLowerCase().includes(term);
+
+      const matchesCategory =
+        this.selectedCategory === 'All' || product.category === this.selectedCategory;
+
+      return matchesSearch && matchesCategory;
+    });
   }
 
   private createEmptyProduct(): Product {

@@ -92,21 +92,36 @@
   </div>
 
   <div class="pagination-row" *ngIf="totalPages > 1">
-    <button type="button" class="page-btn" (click)="onPageChange(1)" [disabled]="currentPage === 1">
+    <button type="button" class="page-btn nav-btn" (click)="onPageChange(1)" [disabled]="currentPage === 1">
       First
     </button>
     <button
       type="button"
-      class="page-btn"
+      class="page-btn nav-btn"
       (click)="onPageChange(currentPage - 1)"
       [disabled]="currentPage === 1"
     >
       Previous
     </button>
+
+    <div class="page-number-group" aria-label="Pagination pages">
+      <button
+        type="button"
+        class="page-btn page-number-btn"
+        *ngFor="let page of getPageNumbers()"
+        [class.active]="page === currentPage"
+        [attr.aria-current]="page === currentPage ? 'page' : null"
+        (click)="onPageChange(page)"
+      >
+        {{ page }}
+      </button>
+    </div>
+
     <span class="page-indicator">Page {{ currentPage }} of {{ totalPages }}</span>
+
     <button
       type="button"
-      class="page-btn"
+      class="page-btn nav-btn"
       (click)="onPageChange(currentPage + 1)"
       [disabled]="currentPage === totalPages"
     >
@@ -114,7 +129,7 @@
     </button>
     <button
       type="button"
-      class="page-btn"
+      class="page-btn nav-btn"
       (click)="onPageChange(totalPages)"
       [disabled]="currentPage === totalPages"
     >

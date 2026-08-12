@@ -63,4 +63,26 @@ describe('Book', () => {
     expect(filtered.length).toBe(1);
     expect(filtered[0].name).toBe('Glow Serum');
   });
+
+  it('should show only 7 products on the first page', () => {
+    component.products = Array.from({ length: 8 }, (_, index) => ({
+      id: index + 1,
+      name: `Book ${index + 1}`,
+      qty: 1,
+      price: 10 + index,
+      description: `Description ${index + 1}`,
+      category: 'General',
+      imageUrl: '',
+    }));
+    component.selectedCategory = 'All';
+    component.searchTerm = '';
+    component.currentPage = 1;
+
+    const pageProducts = component.filteredProducts();
+
+    expect(component.totalPages).toBe(2);
+    expect(pageProducts.length).toBe(7);
+    expect(pageProducts[0].name).toBe('Book 1');
+    expect(pageProducts[6].name).toBe('Book 7');
+  });
 });

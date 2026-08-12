@@ -215,6 +215,7 @@
   justify-content: center;
   align-items: center;
   gap: 10px;
+  flex-wrap: wrap;
   padding: 22px 0 0;
 }
 
@@ -226,6 +227,30 @@
   font-weight: 600;
 }
 
+.nav-btn {
+  min-width: 92px;
+}
+
+.page-number-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.page-number-btn {
+  min-width: 40px;
+  padding-inline: 12px;
+}
+
+.page-number-btn.active {
+  background: var(--bs-primary);
+  color: #ffffff;
+  border-color: var(--bs-primary);
+  box-shadow: 0 8px 18px rgba(13, 110, 253, 0.18);
+}
+
 .page-btn:disabled {
   opacity: 0.45;
   cursor: not-allowed;
@@ -234,7 +259,7 @@
 .page-indicator {
   color: #212529;
   font-weight: 600;
-  padding: 0 8px;
+  padding: 0 10px;
 }
 
 .modal-backdrop {
