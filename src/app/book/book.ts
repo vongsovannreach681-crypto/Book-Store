@@ -191,6 +191,12 @@ export class Book implements OnInit {
   }
 
   deleteProduct(id: number): void {
+    const shouldDelete = window.confirm('Are you sure you want to delete this book?');
+
+    if (!shouldDelete) {
+      return;
+    }
+
     this.deletingIds.add(id);
     this.bookService.deleteProduct(id).subscribe({
       next: () => {
